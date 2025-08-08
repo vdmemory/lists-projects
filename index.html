@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Список ссылок (JS, исправлено)</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: #f0f2f5;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .link-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            max-width: 1200px;
+            margin: auto;
+        }
+
+        .link-item {
+            background-color: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            display: flex;
+            flex-direction: column;
+            padding: 40px 20px 20px;
+            text-decoration: none;
+            color: #333;
+            transition: transform 0.2s, box-shadow 0.2s;
+            position: relative;
+        }
+
+        .link-item:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+        }
+
+        .number {
+            position: absolute;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            right: 0;
+            top: 0;
+            border-radius: 0 12px 0 12px; /* Изменено, чтобы соответствовать карточке */
+            background-color: #007bff;
+            color: white;
+            min-width: 35px;
+            height: 35px;
+            font-weight: bold;
+            font-size: 1.1em;
+            padding: 5px;
+        }
+
+        .header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 15px;
+        }
+        
+        .header-content {
+            flex-grow: 1;
+        }
+
+        .logo {
+            width: 60px;
+            height: 60px;
+            border-radius: 10px;
+            margin-right: 15px;
+            object-fit: cover;
+            flex-shrink: 0;
+        }
+        
+        .header-content h3 {
+            margin: 0 0 4px 0;
+            font-size: 1.3em;
+            color: #007bff;
+        }
+
+        .header-content p {
+            margin: 0;
+            font-size: 0.85em;
+            color: #6c757d;
+        }
+
+        .view-site-button {
+            margin-top: 10px;
+            padding: 8px 16px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 0.9em;
+            transition: background-color 0.2s;
+        }
+        
+        .view-site-button:hover {
+            background-color: #0056b3;
+        }
+        
+        .badge-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 5px;
+        }
+
+        .status-badge, .progress-badge, .note-badge {
+            font-size: 0.8em;
+            padding: 4px 8px;
+            border-radius: 50px;
+            font-weight: bold;
+            color: #fff;
+            text-align: center;
+        }
+
+        .status-paid { background-color: #28a745; }
+        .status-not-paid { background-color: #dc3545; }
+        .progress-done { background-color: #6c757d; }
+        .note-badge { background-color: #ffc107; color: #333; }
+
+        .description-section {
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+            margin-top: 10px;
+        }
+
+        .description-section h4 {
+            margin: 0 0 10px 0;
+            font-size: 1em;
+            font-weight: 600;
+            color: #555;
+        }
+
+        .description-text,
+        .note-text {
+            background-color: #f8f9fa;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 4px;
+            font-size: 0.9em;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+
+        .description-text {
+            border-left: 3px solid #007bff;
+             flex-grow: 1;
+        }
+
+        .note-text {
+            border-left: 3px solid #FF2600;
+        }
+        
+        .copy-button {
+            align-self: flex-end;
+            cursor: pointer;
+            border: 1px solid #ced4da;
+            background-color: #f8f9fa;
+            color: #6c757d;
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-size: 0.85em;
+            transition: background-color 0.2s, border-color 0.2s;
+        }
+        
+        .copy-button:hover {
+            background-color: #e2e6ea;
+            border-color: #dae0e5;
+        }
+
+        .copy-button:active {
+            transform: scale(0.98);
+        }
+
+        .btns {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+    </style>
+</head>
+<body>
+
+<div class="link-list" id="link-list-container">
+    </div>
+
+<script>
+    const linksData = [
+        {
+            id: '1',
+            url: "https://www.treetech.pp.ua/",
+            logo: "https://www.treetech.pp.ua/_next/static/media/logo.d5047746.png",
+            name: "Tree Tech",
+            description: 'Добрый вечер ! @vdmemory  ТОВ "БРАЙТАЙДІА СОЛЮШН" ЄДРПОУ 45445174- сайт. Даю электронку ,телефон. Все по схеме -инстаграмм,  linkedin.com, Фейсбук. Директор - КАПРАН МАКСИМ ЯНОВИЧ.  Логотип тоже даю.  Телефон-+380930093279 ,, Почта- kapran002@ukr.net  , регистрация -Україна, 02100, місто Київ, пров. Будівельників (Дніпровський р-н), будинок 38/14. Сделаю торговые площадки Олх и Пром- скину ссылки',
+            status: 'PAID',
+            progress: 'DONE',
+            note: '8250'
+        },
+        {
+            id: '2',
+            url: "https://www.silver-development.pp.ua/",
+            logo: "https://www.silver-development.pp.ua/_next/static/media/logo.3b54bc86.png",
+            name: "Silver Development",
+            description: `ЗДобрый вечер ! @vdmemory  ТОВ 'СМАРТ ХОРІЗОНС' ЄДРПОУ 45470138- сайт. Даю электронку ,телефон. Все по схеме -инстаграмм,  linkedin.com, Фейсбук. Директор - КАПРАН МАКСИМ ЯНОВИЧ.  Логотип тоже даю.  Телефон-+380930093279 , Почта- kapran002@ukr.net  , регистрация -Україна, 02138 місто Київ, вул. Екстер Олександри, будинок 9. Сделаю торговые площадки Олх и Пром- скину ссылки`,
+            status: 'PAID',
+            progress: 'DONE',
+            note: '8250',
+        },
+        {
+            id: '3',
+            url: "https://www.simplified-tech-solutions.pp.ua/",
+            logo: "https://www.simplified-tech-solutions.pp.ua/assets/logo-BJm0d5hy.png",
+            name: "Simplified Tech Solutions",
+            description: `Добрый день! @vdmemory  ТОВ " КІБЕР СІЧ" ЄДРПОУ 45708704- сайт. Даю электронку ,телефон. Все по схеме -инстаграмм,  linkedin.com, Фейсбук, WhatsApp. Директор - Генов Антон Костянтянтинович.  Логотип тоже даю.  Телефон-+380734067728 ,, Почта- genov2025@ukr.net  , регистрация -Україна, 61009, Xapківська обл., Місто Xapків вул.Привокзальна, будинок З0. Сделаю торговые площадки Олх и Пром- скину ссылки.`,
+            status: 'PAID',
+            progress: 'DONE',
+            note: '8250',
+        },
+        {
+            id: '4',
+            url: "https://www.dynamics-marketing-solutions.pp.ua/",
+            logo: "https://www.dynamics-marketing-solutions.pp.ua/assets/logo-BaO8qYeu.png",
+            name: "Dynamics Marketing Solutions",
+            description: `ТОВ 'ДІДЖИТАЛ МАЙНДС'' ЄДРПОУ 45498629- сайт. Даю электронку ,телефон. Все по схеме -инстаграмм,  linkedin.com, Фейсбук, WhatsApp. Директор - Зінченко Юлія Максимівна.  Логотип тоже даю.  Телефон-+380936066066 , Почта- , monika.zin@icloud.com , регистрация -Україна, 04207, місто Київ, вул.Лук'яненка Левка, будинок 9. Сделаю торговые площадки Олх и Пром- скину ссылки.`,
+            status: 'PAID',
+            progress: 'DONE',
+            note: '8250',
+        },
+        {
+            id: '5',
+            url: "https://www.cloud-matrix.pp.ua/",
+            logo: "https://www.cloud-matrix.pp.ua/assets/logo-DdScIe7M.png",
+            name: "Cloud Matrix",
+            description: `Добрый день! @vdmemory   ФОП ДЕЙНЕГА МАРІЯ ВАДИМІВНА ЄДРПОУ- 3388010166 сайт. Даю электронку ,телефон. Все по схеме -инстаграмм,  linkedin.com, Фейсбук, WhatsApp.   Логотип тоже даю.  Телефон-+380630327589, Почта- deinegam1@ukr.net , регистрация -Україна, 69083, Запорізька обл., місто Запоріжжя, вулиця Вуглегірська, будинок 71 Сделаю торговые площадки Олх и Пром- скину ссылки.`,
+            status: 'PAID',
+            progress: 'DONE',
+            note: '8250',
+        },
+        {
+            id: '6',
+            url: "https://www.mega-host.pp.ua/",
+            logo: "https://www.mega-host.pp.ua/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Flogo.d7e8ca2d.png&w=128&q=75",
+            name: "Mega Host",
+            description: `@vdmemory  ТОВ " БЛЕЙВІЗТОРГ" ЄДРПОУ -45471414 сайт. Даю электронку ,телефон. Все по схеме -инстаграмм,  linkedin.com, Фейсбук, WhatsApp. Директор - Дейнега Марія Вадимівна.  Логотип тоже даю.  Телефон-+380630327589 , Почта- deinegam1@ukr.net, регистрация - Україна,69083  місто Київ, вул.  Юри Гната, буд.3 Сделаю торговые площадки Олх и Пром- скину ссылки.`,
+            status: 'PAID',
+            progress: 'DONE',
+            note: '8250',
+        },
+        {
+            id: '7',
+            url: "https://www.pro-soft.fun/",
+            logo: "https://www.pro-soft.fun/assets/logo-CyK-qFbf.png",
+            name: "Pro Soft",
+            description: `@vdmemory  ТОВ " РЕДСТАЙЛ ЕКСПЕРТ" ЄДРПОУ -45642633 сайт. Даю электронку ,телефон. Все по схеме -инстаграмм,  linkedin.com, Фейсбук, WhatsApp. Директор - Дейнега Марія Вадимівна.  Логотип тоже даю.  Телефон-+380630327589 , Почта- deinegam1@ukr.net, регистрация - Україна,04207  місто Київ, вул.  Лук'яненка Левка, буд.13 Сделаю торговые площадки Олх и Пром- скину ссылки.`,
+            status: 'PAID',
+            progress: 'DONE',
+            note: '8250 + domain: 83,26',
+        },
+        {
+            id: '8',
+            url: "https://www.it-corporation.com.ua/",
+            logo: "https://www.it-corporation.com.ua/_next/image?url=%2Fstatic%2Ficons%2Flogo.png&w=128&q=75",
+            name: "IT Corporation",
+            description: `"ИТ КОРПОРЕЙШН" ЕООД
+                ЕИК 208418288
+                България, общ. Несебър, к.к Слънчев бряг, Съни Дриймс,
+                офис 3
+                Bulgaria, Nessebar Municipality, Sunny Beach Resort, Sunny Dreams,
+                office 3
+                it.corporation.bulg@gmail.com
+                +359886706588`,
+            status: 'NOT PAID',
+            progress: 'DONE',
+            note: '8250 + domain: 350',
+        },
+        {
+            id: '9',
+            url: "https://www.lot-company.com.ua/",
+            logo: 'https://www.lot-company.com.ua/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Flogo.6990d1ed.jpg&w=256&q=75',
+            name: 'Lot Company',
+            description: `LOT COMPANY LTD
+                EIK: 207274529
+                Address: Bulgaria, KVARTAL SLANCHEV BRYAG, NESEBAR, 8240 
+                почту сегодня зарегаю
+                тел +359886923656`,
+            status: 'NOT PAID',
+            progress: 'DONE',
+            note: '8250 + domain: 350',
+        },
+        {
+            id: '10',
+            url: "https://www.integral-revolut.com.ua/",
+            logo: "https://www.integral-revolut.com.ua/uploads/logo.png",
+            name: "INTEGRAL REVOLUT",
+            description: `Очень оперативно нужно склеить сайтик
+                INTEGRAL REVOLUT EOOD
+                ЕИК 208428147
+                Bulgaria, Nesebar, Sunny Beach Resort, Sunny Palace, office 10, 8240 
+                integral.revolut.bg@gmail.com
+                +359886706288
+
+                языки - англ, болг, укр`,
+            status: 'NOT PAID',
+            progress: 'DONE',
+            note: '8250 + domain: 350',
+        },
+        {
+            id: '11',
+            url: "https://www.intelli-code.fun/",
+            logo: "https://www.intelli-code.fun/logo.png",
+            name: "Intelli Code",
+            description: `@vdmemory  ТОВ " ОТЕН БАЙТ" ЄДРПОУ 45742787- сайт. Даю электронку ,телефон. Все по схеме -инстаграмм,  linkedin.com, Фейсбук, WhatsApp. Директор - Генов Антон Костянтинович.  Логотип тоже даю.  Телефон-380734067728 , Почта- genov2025@ukr.net, регистрация -Україна, 61170, місто Харків, вул. Валентинівська, будинок 20. Торговые площадки -ПРОМ ЮА- https://prom.ua/ua/c4125167-tov-oten-bajt.htm`,
+            status: 'NOT PAID',
+            progress: 'DONE',
+            note: '8250 + domain: 83,26',
+        },
+        {
+            id: '12',
+            url: "https://www.innova-tech.fun",
+            logo: "https://www.innova-tech.fun/btn.png",
+            name: "Innovatech",
+            description: `Доброе утро ! @vdmemory  ТОВ " ВЕЛВІКС  ІТ" ЄДРПОУ -45763571 сайт. Даю электронку ,телефон. Все по схеме -инстаграмм,  linkedin.com, Фейсбук, WhatsApp. Директор - Ухін Андрій Юрійович.  Логотип тоже даю.  Телефон-+380933400323 , Почта- ukhin1611@ukr.net , регистрация - Україна, 03039  місто Київ, вул.  Голосіївська, буд.7, корпус 3.  Сделаю торговые площадки Олх и Пром- скину ссылки.`,
+            status: 'NOT PAID',
+            progress: 'DONE',
+            note: '8250 + domain: 83,26',
+        }
+    ];
+
+    const container = document.getElementById("link-list-container");
+
+    linksData.forEach(link => {
+        const linkItem = document.createElement("div"); /* Изменено на div */
+        linkItem.className = "link-item";
+
+        const statusClass = link.status === 'PAID' ? 'status-paid' : 'status-not-paid';
+        const descriptionId = `description-${link.id}`;
+
+        linkItem.innerHTML = `
+            <span class="number">${link.id}</span>
+            <div class="header">
+                <img src="${link.logo}" alt="Логотип ${link.name}" class="logo">
+                <div class="header-content">
+                    <h3>${link.name}</h3>
+                    <div class="badge-container">
+                        <span class="status-badge ${statusClass}">${link.status}</span>
+                        <span class="progress-badge progress-done">${link.progress}</span>
+                    </div>
+                </div>
+            </div>
+            <div class="description-section">
+                <h4>Описание:</h4>
+                <div class="description-text" id="${descriptionId}">${link.description}</div>
+                <div class="note-text"">${link.note}</div>
+                <div class="btns">
+                    <a href="${link.url}" target="_blank" class="view-site-button">Перейти на сайт</a>
+                    <button class="copy-button" data-target="${descriptionId}">
+                        Копировать
+                    </button>
+                </div>
+            </div>
+        `;
+
+        container.appendChild(linkItem);
+    });
+    
+    document.addEventListener('click', function(event) {
+        if (event.target.classList.contains('copy-button')) {
+            const targetId = event.target.dataset.target;
+            const textElement = document.getElementById(targetId);
+            const textToCopy = textElement.textContent || textElement.innerText;
+            
+            navigator.clipboard.writeText(textToCopy).then(() => {
+                const originalText = event.target.textContent;
+                event.target.textContent = 'Скопировано!';
+                setTimeout(() => {
+                    event.target.textContent = originalText;
+                }, 2000);
+            }).catch(err => {
+                console.error('Не удалось скопировать текст: ', err);
+            });
+        }
+    });
+</script>
+
+</body>
+</html>
