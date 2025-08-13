@@ -126,7 +126,11 @@
 
         .status-paid { background-color: #28a745; }
         .status-not-paid { background-color: #dc3545; }
+        .status-partially-paid { background-color: #ffc107; }
+
+        .progress-in-progress { background-color: #17a2b8; }
         .progress-done { background-color: #6c757d; }
+
         .note-badge { background-color: #ffc107; color: #333; }
 
         .description-section {
@@ -197,6 +201,13 @@
     </div>
 
 <script>
+
+    const DONE = 'DONE';
+    const IN_PROGRESS = 'IN PROGRESS';
+    const PAID = 'PAID';
+    const NOT_PAID = 'NOT PAID';
+    const PARTIALLY_PAID = 'PARTIALLY PAID';
+
     const linksData = [
         {
             id: '1',
@@ -204,8 +215,8 @@
             logo: "https://www.treetech.pp.ua/_next/static/media/logo.d5047746.png",
             name: "Tree Tech",
             description: 'Добрый вечер ! @vdmemory  ТОВ "БРАЙТАЙДІА СОЛЮШН" ЄДРПОУ 45445174- сайт. Даю электронку ,телефон. Все по схеме -инстаграмм,  linkedin.com, Фейсбук. Директор - КАПРАН МАКСИМ ЯНОВИЧ.  Логотип тоже даю.  Телефон-+380930093279 ,, Почта- kapran002@ukr.net  , регистрация -Україна, 02100, місто Київ, пров. Будівельників (Дніпровський р-н), будинок 38/14. Сделаю торговые площадки Олх и Пром- скину ссылки',
-            status: 'PAID',
-            progress: 'DONE',
+            status: PAID,
+            progress: DONE,
             note: '8250'
         },
         {
@@ -214,8 +225,8 @@
             logo: "https://www.silver-development.pp.ua/_next/static/media/logo.3b54bc86.png",
             name: "Silver Development",
             description: `ЗДобрый вечер ! @vdmemory  ТОВ 'СМАРТ ХОРІЗОНС' ЄДРПОУ 45470138- сайт. Даю электронку ,телефон. Все по схеме -инстаграмм,  linkedin.com, Фейсбук. Директор - КАПРАН МАКСИМ ЯНОВИЧ.  Логотип тоже даю.  Телефон-+380930093279 , Почта- kapran002@ukr.net  , регистрация -Україна, 02138 місто Київ, вул. Екстер Олександри, будинок 9. Сделаю торговые площадки Олх и Пром- скину ссылки`,
-            status: 'PAID',
-            progress: 'DONE',
+            status: PAID,
+            progress: DONE,
             note: '8250',
         },
         {
@@ -224,8 +235,8 @@
             logo: "https://www.simplified-tech-solutions.pp.ua/assets/logo-BJm0d5hy.png",
             name: "Simplified Tech Solutions",
             description: `Добрый день! @vdmemory  ТОВ " КІБЕР СІЧ" ЄДРПОУ 45708704- сайт. Даю электронку ,телефон. Все по схеме -инстаграмм,  linkedin.com, Фейсбук, WhatsApp. Директор - Генов Антон Костянтянтинович.  Логотип тоже даю.  Телефон-+380734067728 ,, Почта- genov2025@ukr.net  , регистрация -Україна, 61009, Xapківська обл., Місто Xapків вул.Привокзальна, будинок З0. Сделаю торговые площадки Олх и Пром- скину ссылки.`,
-            status: 'PAID',
-            progress: 'DONE',
+            status: PAID,
+            progress: DONE,
             note: '8250',
         },
         {
@@ -234,8 +245,8 @@
             logo: "https://www.dynamics-marketing-solutions.pp.ua/assets/logo-BaO8qYeu.png",
             name: "Dynamics Marketing Solutions",
             description: `ТОВ 'ДІДЖИТАЛ МАЙНДС'' ЄДРПОУ 45498629- сайт. Даю электронку ,телефон. Все по схеме -инстаграмм,  linkedin.com, Фейсбук, WhatsApp. Директор - Зінченко Юлія Максимівна.  Логотип тоже даю.  Телефон-+380936066066 , Почта- , monika.zin@icloud.com , регистрация -Україна, 04207, місто Київ, вул.Лук'яненка Левка, будинок 9. Сделаю торговые площадки Олх и Пром- скину ссылки.`,
-            status: 'PAID',
-            progress: 'DONE',
+            status: PAID,
+            progress: DONE,
             note: '8250',
         },
         {
@@ -244,8 +255,8 @@
             logo: "https://www.cloud-matrix.pp.ua/assets/logo-DdScIe7M.png",
             name: "Cloud Matrix",
             description: `Добрый день! @vdmemory   ФОП ДЕЙНЕГА МАРІЯ ВАДИМІВНА ЄДРПОУ- 3388010166 сайт. Даю электронку ,телефон. Все по схеме -инстаграмм,  linkedin.com, Фейсбук, WhatsApp.   Логотип тоже даю.  Телефон-+380630327589, Почта- deinegam1@ukr.net , регистрация -Україна, 69083, Запорізька обл., місто Запоріжжя, вулиця Вуглегірська, будинок 71 Сделаю торговые площадки Олх и Пром- скину ссылки.`,
-            status: 'PAID',
-            progress: 'DONE',
+            status: PAID,
+            progress: DONE,
             note: '8250',
         },
         {
@@ -254,8 +265,8 @@
             logo: "https://www.mega-host.pp.ua/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Flogo.d7e8ca2d.png&w=128&q=75",
             name: "Mega Host",
             description: `@vdmemory  ТОВ " БЛЕЙВІЗТОРГ" ЄДРПОУ -45471414 сайт. Даю электронку ,телефон. Все по схеме -инстаграмм,  linkedin.com, Фейсбук, WhatsApp. Директор - Дейнега Марія Вадимівна.  Логотип тоже даю.  Телефон-+380630327589 , Почта- deinegam1@ukr.net, регистрация - Україна,69083  місто Київ, вул.  Юри Гната, буд.3 Сделаю торговые площадки Олх и Пром- скину ссылки.`,
-            status: 'PAID',
-            progress: 'DONE',
+            status: PAID,
+            progress: DONE,
             note: '8250',
         },
         {
@@ -264,8 +275,8 @@
             logo: "https://www.pro-soft.fun/assets/logo-CyK-qFbf.png",
             name: "Pro Soft",
             description: `@vdmemory  ТОВ " РЕДСТАЙЛ ЕКСПЕРТ" ЄДРПОУ -45642633 сайт. Даю электронку ,телефон. Все по схеме -инстаграмм,  linkedin.com, Фейсбук, WhatsApp. Директор - Дейнега Марія Вадимівна.  Логотип тоже даю.  Телефон-+380630327589 , Почта- deinegam1@ukr.net, регистрация - Україна,04207  місто Київ, вул.  Лук'яненка Левка, буд.13 Сделаю торговые площадки Олх и Пром- скину ссылки.`,
-            status: 'PAID',
-            progress: 'DONE',
+            status: PAID,
+            progress: DONE,
             note: '8250 + domain: 83,26',
         },
         {
@@ -281,8 +292,8 @@
                 office 3
                 it.corporation.bulg@gmail.com
                 +359886706588`,
-            status: 'PAID',
-            progress: 'DONE',
+            status: PAID,
+            progress: DONE,
             note: '8250 + domain: 350',
         },
         {
@@ -295,8 +306,8 @@
                 Address: Bulgaria, KVARTAL SLANCHEV BRYAG, NESEBAR, 8240 
                 почту сегодня зарегаю
                 тел +359886923656`,
-            status: 'PAID',
-            progress: 'DONE',
+            status: PAID,
+            progress: DONE,
             note: '8250 + domain: 350',
         },
         {
@@ -312,8 +323,8 @@
                 +359886706288
 
                 языки - англ, болг, укр`,
-            status: 'NOT PAID',
-            progress: 'DONE',
+            status: PARTIALLY_PAID,
+            progress: DONE,
             note: '8250 + domain: 350',
         },
         {
@@ -322,8 +333,8 @@
             logo: "https://www.intelli-code.fun/logo.png",
             name: "Intelli Code",
             description: `@vdmemory  ТОВ " ОТЕН БАЙТ" ЄДРПОУ 45742787- сайт. Даю электронку ,телефон. Все по схеме -инстаграмм,  linkedin.com, Фейсбук, WhatsApp. Директор - Генов Антон Костянтинович.  Логотип тоже даю.  Телефон-380734067728 , Почта- genov2025@ukr.net, регистрация -Україна, 61170, місто Харків, вул. Валентинівська, будинок 20. Торговые площадки -ПРОМ ЮА- https://prom.ua/ua/c4125167-tov-oten-bajt.htm`,
-            status: 'NOT PAID',
-            progress: 'DONE',
+            status: NOT_PAID,
+            progress: DONE,
             note: '8250 + domain: 83,26',
         },
         {
@@ -332,8 +343,8 @@
             logo: "https://www.innova-tech.fun/btn.png",
             name: "Innovatech",
             description: `Доброе утро ! @vdmemory  ТОВ " ВЕЛВІКС  ІТ" ЄДРПОУ -45763571 сайт. Даю электронку ,телефон. Все по схеме -инстаграмм,  linkedin.com, Фейсбук, WhatsApp. Директор - Ухін Андрій Юрійович.  Логотип тоже даю.  Телефон-+380933400323 , Почта- ukhin1611@ukr.net , регистрация - Україна, 03039  місто Київ, вул.  Голосіївська, буд.7, корпус 3.  Сделаю торговые площадки Олх и Пром- скину ссылки.`,
-            status: 'NOT PAID',
-            progress: 'DONE',
+            status: NOT_PAID,
+            progress: DONE,
             note: '8250 + domain: 83,26',
         }
     ];
@@ -344,7 +355,15 @@
         const linkItem = document.createElement("div"); /* Изменено на div */
         linkItem.className = "link-item";
 
-        const statusClass = link.status === 'PAID' ? 'status-paid' : 'status-not-paid';
+        let statusClass = '';
+        if (link.status === 'PAID') statusClass = 'status-paid';
+        if (link.status === 'NOT PAID') statusClass = 'status-not-paid';
+        if (link.status === 'PARTIALLY PAID') statusClass = 'status-partially-paid';
+
+        let progressClass = '';
+        if (link.progress === 'DONE') progressClass = 'progress-done';
+        if (link.progress === 'IN PROGRESS') progressClass = 'progress-in-progress';
+
         const descriptionId = `description-${link.id}`;
 
         linkItem.innerHTML = `
@@ -355,7 +374,7 @@
                     <h3>${link.name}</h3>
                     <div class="badge-container">
                         <span class="status-badge ${statusClass}">${link.status}</span>
-                        <span class="progress-badge progress-done">${link.progress}</span>
+                        <span class="progress-badge ${progressClass}">${link.progress}</span>
                     </div>
                 </div>
             </div>
